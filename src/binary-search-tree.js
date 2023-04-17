@@ -1,13 +1,13 @@
 const { NotImplementedError } = require('../extensions/index.js');
 
 const { Node } = require('../extensions/list-tree.js');
- 
+
 /**
 * Implement simple binary search tree according to task description
 * using Node from extensions
 */
 class BinarySearchTree {
-  constructor(){
+  constructor() {
     this.rootNode = null;
   }
   root() {
@@ -15,16 +15,16 @@ class BinarySearchTree {
   }
 
   add(value) {
-    if(this.rootNode != null){
-      this.get(value, (cur, prev) => 
-        {cur = new Node(); 
+    if (this.rootNode != null) {
+      this.get(value, (cur, prev) => {
+        cur = new Node();
         cur.data = value;
-        if(value > prev.data)
+        if (value > prev.data)
           prev.right = cur;
-        else if(value < prev.data)
+        else if (value < prev.data)
           prev.left = cur;
-        })
-      }
+      })
+    }
     else {
       this.rootNode = new Node();
       this.rootNode.data = value;
@@ -32,40 +32,44 @@ class BinarySearchTree {
   }
 
   has(value) {//исправить undefined на [undefined, currentNode]
-    if(Array.isArray(this.get(value, () => false))) return true;
+    if (Array.isArray(this.get(value, () => false))) return true;
     return false;
   }
 
   find(value) {//исправить undefined на [undefined, currentNode] 
-    if(Array.isArray(this.get(value, () => 0))) return this.get(value, () => 0)[1];
+    if (Array.isArray(this.get(value, () => 0))) return this.get(value, () => 0)[1];
     else return null;
   }
 
   remove(value) {
-    if(Array.isArray(this.get(value, () => {false}))){
-      this.get(value, () => {false})[1] = null;
+    let array = this.get(value, () => { false });
+    if (Array.isArray(array)) {
+      let prev = array[1];
+      if (value == prev.right.data)
+        prev.right = null;
+      else if (value == prev.left.data)
+        prev.left = null;
     }
   }
 
   min() {
-    return this.get(-Infinity, (cur, prev) => prev.data); 
+    return this.get(-Infinity, (cur, prev) => prev.data);
   }
 
   max() {
-    return this.get(Infinity, (cur, prev) => prev.data); 
+    return this.get(Infinity, (cur, prev) => prev.data);
   }
 
-  get(value, func){
+  get(value, func) {
     var previousNode = null;
     let currentNode = this.rootNode;
-    while(currentNode !== null){
-      previousNode = currentNode; 
-      if(value > currentNode.data)
-      {
+    while (currentNode !== null) {
+      if (value > currentNode.data) {
+        previousNode = currentNode;
         currentNode = currentNode.right;
       }
-      else if(value < currentNode.data)
-      {
+      else if (value < currentNode.data) {
+        previousNode = currentNode;
         currentNode = currentNode.left;
       }
       else return [undefined, previousNode];
@@ -74,17 +78,18 @@ class BinarySearchTree {
   }
 }
 
-const tree = new BinarySearchTree();
-tree.add(1);
-tree.add(2);
-tree.add(3);
-tree.add(4);
-tree.add(5);
-console.log(tree);
-console.log(tree.min());
-console.log(tree.max());
-tree.remove(5);
-console.log(tree.has(5));
+// const tree = new BinarySearchTree();
+// tree.add(1);
+// tree.add(2);
+// tree.add(3);
+// tree.add(4);
+// tree.add(5);
+// console.log(tree);
+// console.log(tree.min());
+// console.log(tree.max());
+// tree.remove(5);
+// console.log(tree.has(5));
+// console.log(tree.max());
 module.exports = {
   BinarySearchTree
 };
