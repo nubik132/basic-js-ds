@@ -1,8 +1,8 @@
 const { expect, assert } = require('chai');
-const { testOptional } = require('../extensions/index.js');
+// const { testOptional } = require('../extensions/index.js');
 const { BinarySearchTree } = require('../src/binary-search-tree.js');
 
-it.optional = testOptional;
+// it.optional = testOptional;
 
 Object.freeze(expect);
 Object.freeze(assert);
